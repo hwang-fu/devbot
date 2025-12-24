@@ -1,0 +1,16 @@
+[project]
+name = "devbot-backend"
+version = "0.1.0"
+description = "DevBot backend API"
+requires-python = ">=3.10"
+dependencies = ["fastapi>=0.127.0", "uvicorn[standard]>=0.40.0"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
