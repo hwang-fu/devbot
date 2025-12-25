@@ -1,12 +1,13 @@
 """FastAPI application entry point."""
 
 import time
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
-from app.routers import chat, debug
+from fastapi import FastAPI
+
 from app.config import settings
 from app.database import init_db
+from app.routers import chat, debug
 from app.services.ollama import verify_model
 
 

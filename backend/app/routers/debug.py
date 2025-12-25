@@ -28,7 +28,8 @@ async def test_db_read():
     db = await get_db()
     try:
         cursor = await db.execute(
-            "SELECT * FROM conversations WHERE user_id = 'test-user' ORDER BY id DESC LIMIT 5"
+            "SELECT * FROM conversations WHERE user_id = 'test-user' "
+            "ORDER BY id DESC LIMIT 5"
         )
         rows = await cursor.fetchall()
         return {"rows": [dict(row) for row in rows]}
