@@ -1,3 +1,5 @@
+"""FastAPI application entry point."""
+
 import time
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
@@ -22,11 +24,13 @@ start_time = time.time()
 
 @app.get("/")
 async def root():
+    """Basic status check endpoint."""
     return {"status": "ok"}
 
 
 @app.get("/health")
 async def health():
+    """Health check with uptime and version info."""
     uptime = time.time() - start_time
     return {
         "status": "healthy",
@@ -38,6 +42,7 @@ async def health():
 
 @app.post("/test-db")
 async def test_db_write(message: str = "Hello from test"):
+    """Write test data to database (for development)."""
     db = await get_db()
     try:
         await db.execute(
@@ -52,6 +57,7 @@ async def test_db_write(message: str = "Hello from test"):
 
 @app.get("/test-db")
 async def test_db_read():
+    """Read test data from database (for development)."""
     db = await get_db()
     try:
         cursor = await db.execute(
