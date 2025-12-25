@@ -75,3 +75,24 @@ async def get_config(guild_id: str):
         }
     finally:
         await db.close()
+
+
+@router.put("/{guild_id}/config")
+async def update_config(guild_id: str, notification_channel_id: str):
+    """Update guild configuration (notification channel)."""
+    db = await get_db()
+    try:
+        await db.execute(
+            """INSERT INTO guild_config (guild_id, notification_channel_id)
+             VALUES (?, ?)
+             ON CONFLICT(guild_id) DO UPDATE SET notification_channel_id = ?""",
+            (guild_id, notification_channel_id, notification_channel_id),
+        )
+        await db.commit()
+        return {
+            "status": "updated",
+            "guild_id": guild_id,
+            "notification_channel_id": notification_channel_id,
+        }
+    finally:
+        await db.close()
