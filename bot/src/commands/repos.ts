@@ -32,3 +32,21 @@ export async function execute(
     await interaction.editReply("Failed to manage repos. Is the backend running?");
   }
 }
+
+async function handleList(
+  interaction: ChatInputCommandInteraction,
+  guildId: string
+): Promise<void> {
+  const response = await fetch(`${config.BACKEND_URL}/guilds/${guildId}/repos`);
+  const data = await response.json();
+
+  if (data.repos.length === 0) {
+    await interaction.editReply("No repos being watched. Use `/repos add` to add one.");
+    return;
+  }
+
+  const repoList = data.repos
+    .map((r: { owner: string; name: string }) => `• ${r.owner}/${r.name}`)
+    .join("\n");
+  await interaction.editReply(`**Watched repos:**\n${repoList}`);
+}
