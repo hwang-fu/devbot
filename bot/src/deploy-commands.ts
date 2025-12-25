@@ -4,11 +4,7 @@
  * Usage: npx tsx src/deploy-commands.ts
  */
 import "dotenv/config";
-import {
-  REST,
-  Routes,
-  SlashCommandBuilder
-} from "discord.js";
+import { REST, Routes, SlashCommandBuilder } from "discord.js";
 
 const token = process.env.DISCORD_TOKEN!;
 const clientId = process.env.DISCORD_CLIENT_ID!;
@@ -39,10 +35,8 @@ const rest = new REST().setToken(token);
 console.log("Registering slash commands...");
 
 rest
-  .put(
-    Routes.applicationCommands(clientId),
-    {
-      body: commands
-    })
+  .put(Routes.applicationCommands(clientId), {
+    body: commands,
+  })
   .then(() => console.log("Successfully registered commands!"))
   .catch(console.error);

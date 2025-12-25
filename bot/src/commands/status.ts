@@ -16,7 +16,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
       `Uptime: ${data.uptime_seconds}s\n` +
       `Version: ${data.version}`
     );
-  } catch (error) {
+  } catch (_error) {
     await interaction.editReply("Backend is offline or unreachable.");
   }
 }

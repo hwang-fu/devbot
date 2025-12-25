@@ -3,17 +3,10 @@
  * Handles client connection and routes commands to handlers.
  */
 
-import {
-  Client,
-  Events,
-  GatewayIntentBits,
-} from "discord.js";
+import { Client, Events, GatewayIntentBits } from "discord.js";
 import "dotenv/config";
 import { config } from "./config";
-import * as ping from "./commands/ping";
-import * as status from "./commands/status";
-import * as chat from "./commands/chat";
-import * as clear from "./commands/clear";
+import { Command, ping, status, chat, clear } from "./commands";
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -26,7 +19,7 @@ client.once(Events.ClientReady, (readyClient) => {
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  const commands: Record<string, { execute: typeof ping.execute }> = {
+  const commands: Record<string, Command> = {
     ping,
     status,
     chat,

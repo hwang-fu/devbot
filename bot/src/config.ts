@@ -20,7 +20,7 @@ function loadConfig() {
     });
     process.exit(1);
   }
-  return result.data
+  return result.data;
 }
 
 export const config = loadConfig();
