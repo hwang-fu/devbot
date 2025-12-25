@@ -16,6 +16,17 @@ const commands = [
   new SlashCommandBuilder()
     .setName("status")
     .setDescription("Check bot and backend health"),
+
+  new SlashCommandBuilder()
+    .setName("chat")
+    .setDescription("Chat with AI")
+    .addStringOption((option) =>
+      option.setName("message").setDescription("Your message").setRequired(true)
+    ),
+
+  new SlashCommandBuilder()
+    .setName("clear")
+    .setDescription("Clear your conversation history"),
 ].map((command) => command.toJSON());
 
 const rest = new REST().setToken(token);
