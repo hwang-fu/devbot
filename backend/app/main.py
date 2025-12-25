@@ -7,7 +7,7 @@ from fastapi import FastAPI
 
 from app.config import settings
 from app.database import init_db
-from app.routers import chat, debug
+from app.routers import chat, debug, guilds
 from app.services.ollama import verify_model
 
 
@@ -21,6 +21,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(chat.router)
 app.include_router(debug.router)
+app.include_router(guilds.router)
 
 
 start_time = time.time()
