@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     database_path: str = "../data/devbot.db"
     host: str = "0.0.0.0"
     port: int = 8000
+    github_webhook_secret: str = ""
+    discord_token: str = ""
 
     class Config:
         env_file = ".env"
