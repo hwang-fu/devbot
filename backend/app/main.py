@@ -4,14 +4,16 @@ import time
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
+from app.routers import chat
 from app.config import settings
 from app.database import init_db, get_db
-from app.routers import chat
+from app.services.ollama import verify_model
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
+    await verify_model()
     yield
 
 
