@@ -1,3 +1,8 @@
+/**
+ * Slash command registration script.
+ * Run this once (or when commands change) to register with Discord API.
+ * Usage: npx tsx src/deploy-commands.ts
+ */
 import "dotenv/config";
 import {
   REST,
