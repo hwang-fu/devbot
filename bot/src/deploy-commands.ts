@@ -4,7 +4,12 @@
  * Usage: npx tsx src/deploy-commands.ts
  */
 import "dotenv/config";
-import { REST, Routes, SlashCommandBuilder } from "discord.js";
+import {
+  REST,
+  Routes,
+  ChannelType,
+  SlashCommandBuilder,
+} from "discord.js";
 
 const token = process.env.DISCORD_TOKEN!;
 const clientId = process.env.DISCORD_CLIENT_ID!;
@@ -77,6 +82,16 @@ const commands = [
             .setDescription("Repo name")
             .setRequired(true)
         )
+    ),
+
+  new SlashCommandBuilder()
+    .setName("setchannel")
+    .setDescription("Set channel for GitHub notifications")
+    .addChannelOption((opt) =>
+      opt
+        .setName("channel")
+        .setDescription("The channel to send notifications to")
+        .setRequired(true)
     ),
 ].map((command) => command.toJSON());
 
