@@ -1,3 +1,7 @@
+/**
+ * Configuration module with Zod validation.
+ * Validates environment variables at startup (fail-fast pattern).
+ */
 import { z } from "zod";
 
 const envSchema = z.object({
@@ -6,6 +10,7 @@ const envSchema = z.object({
   BACKEND_URL: z.string().url("BACKEND_URL must be a valid URL"),
 });
 
+/** Load and validate configuration from environment variables. */
 function loadConfig() {
   const result = envSchema.safeParse(process.env);
   if (!result.success) {
@@ -15,7 +20,7 @@ function loadConfig() {
     });
     process.exit(1);
   }
-  return result.data
+  return result.data;
 }
 
 export const config = loadConfig();
