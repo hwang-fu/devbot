@@ -1,3 +1,5 @@
+"""Database connection and schema initialization."""
+
 import aiosqlite
 from pathlib import Path
 
@@ -7,6 +9,7 @@ DATABASE_PATH = Path(settings.database_path)
 
 
 async def get_db() -> aiosqlite.Connection:
+    """Get a database connection with Row factory enabled."""
     DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
     db = await aiosqlite.connect(DATABASE_PATH)
     db.row_factory = aiosqlite.Row
@@ -14,6 +17,7 @@ async def get_db() -> aiosqlite.Connection:
 
 
 async def init_db():
+    """Initialize database tables if they don't exist."""
     db = await get_db()
     try:
         await db.executescript("""
