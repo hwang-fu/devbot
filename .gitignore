@@ -17,6 +17,9 @@ __pycache__/
 
 # Database
 data/
+*.db
+*.sqlite
+*.sqlite3
 
 # IDE
 .idea/
