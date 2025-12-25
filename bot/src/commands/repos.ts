@@ -73,3 +73,24 @@ async function handleAdd(
 
   await interaction.editReply(`Now watching **${owner}/${name}**`);
 }
+
+
+async function handleRemove(
+  interaction: ChatInputCommandInteraction,
+  guildId: string
+): Promise<void> {
+  const owner = interaction.options.getString("owner", true);
+  const name = interaction.options.getString("name", true);
+
+  const response = await fetch(
+    `${config.BACKEND_URL}/guilds/${guildId}/repos/${owner}/${name}`,
+    { method: "DELETE" }
+  );
+
+  if (!response.ok) {
+    await interaction.editReply(`Repo **${owner}/${name}** is not being watched.`);
+    return;
+  }
+
+  await interaction.editReply(`Stopped watching **${owner}/${name}**`);
+}
