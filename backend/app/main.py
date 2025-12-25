@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from app.config import settings
 from app.database import init_db, get_db
+from app.routers import chat
 
 
 @asynccontextmanager
@@ -13,6 +14,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(chat.router)
+
 
 start_time = time.time()
 

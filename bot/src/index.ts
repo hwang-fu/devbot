@@ -40,6 +40,39 @@ client.on(Events.InteractionCreate, async (interaction) => {
       await interaction.editReply("Backend is offline or unreachable.");
     }
   }
+
+  if (interaction.commandName === "chat") {
+    const message = interaction.options.getString("message", true);
+    await interaction.deferReply();
+
+    try {
+      const response = await fetch(`${config.BACKEND_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: interaction.user.id,
+          message: message,
+        }),
+      });
+      const data = await response.json();
+      await interaction.editReply(data.response);
+    } catch (error) {
+      await interaction.editReply("Failed to get AI response.");
+    }
+  }
+
+  if (interaction.commandName === "clear") {
+    await interaction.deferReply();
+
+    try {
+      await fetch(`${config.BACKEND_URL}/chat/clear?user_id=${interaction.user.id}`, {
+        method: "POST",
+      });
+      await interaction.editReply("Conversation history cleared!");
+    } catch (error) {
+      await interaction.editReply("Failed to clear history.");
+    }
+  }
 });
 
 
