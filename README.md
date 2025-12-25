@@ -6,6 +6,20 @@ A Discord bot with GitHub notifications and AI chat.
 
 TypeScript Discord bot (discord.js) communicates with a Python backend (FastAPI) via REST API. Features multi-server support with per-guild configuration.
 
+## Features
+
+### Bot Commands
+| Command | Description |
+|---------|-------------|
+| `/ping` | Replies with Pong! |
+| `/status` | Check bot and backend health |
+
+### API Endpoints
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/` | GET | Basic status check |
+| `/health` | GET | Health check with uptime and version |
+
 ## Project Structure
 
 ```
@@ -46,7 +60,10 @@ uv run uvicorn app.main:app --reload   # Start dev server (port 8000)
 ```bash
 cd bot
 npm install                        # Install dependencies
-# Create .env with DISCORD_TOKEN and DISCORD_CLIENT_ID
+# Create .env with:
+#   DISCORD_TOKEN=your_bot_token
+#   DISCORD_CLIENT_ID=your_client_id
+#   BACKEND_URL=http://localhost:8000
 npx tsx src/deploy-commands.ts     # Register slash commands (once)
 npm run dev                        # Start bot with hot reload
 ```
