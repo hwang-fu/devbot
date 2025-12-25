@@ -19,6 +19,8 @@ TypeScript Discord bot (discord.js) communicates with a Python backend (FastAPI)
 |----------|--------|-------------|
 | `/` | GET | Basic status check |
 | `/health` | GET | Health check with uptime and version |
+| `/test-db` | GET | Read test data from database |
+| `/test-db` | POST | Write test data to database |
 
 ## Project Structure
 
@@ -36,6 +38,7 @@ devbot/
     ├── app/
     │   ├── main.py     # FastAPI app
     │   ├── config.py   # Pydantic Settings
+    │   ├── database.py # SQLite connection and schema
     │   └── __init__.py
     └── pyproject.toml
 ```
