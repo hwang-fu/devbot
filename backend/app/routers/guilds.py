@@ -21,3 +21,22 @@ async def list_repos(guild_id: str):
         return {"guild_id": guild_id, "repos": [dict(row) for row in rows]}
     finally:
         await db.close()
+
+
+@router.post("/{guild_id}/repos")
+async def add_repo(guild_id: str, owner: str, name: str):
+    """Add a repo to watch for a guild."""
+    db = await get_db()
+    try:
+        await db.execute(
+            "INSERT INTO repos (guild_id, owner, name) VALUES (?, ?, ?)",
+            (guild_id, owner, name),
+        )
+        await db.commit()
+        return {"status": "added", "guild_id": guild_id, "owner": owner, "name": name}
+    except Exception:
+        raise HTTPException(
+            status_code=400, detail="Repo already exists for this guild"
+        )
+    finally:
+        await db.close()
