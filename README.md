@@ -13,12 +13,16 @@ TypeScript Discord bot (discord.js) communicates with a Python backend (FastAPI)
 |---------|-------------|
 | `/ping` | Replies with Pong! |
 | `/status` | Check bot and backend health |
+| `/chat` | Chat with AI (has conversation memory) |
+| `/clear` | Clear your conversation history |
 
 ### API Endpoints
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/` | GET | Basic status check |
 | `/health` | GET | Health check with uptime and version |
+| `/chat` | POST | Send message, get AI response |
+| `/chat/clear` | POST | Clear conversation history |
 | `/test-db` | GET | Read test data from database |
 | `/test-db` | POST | Write test data to database |
 
@@ -36,10 +40,13 @@ devbot/
 │
 └── backend/            # Python FastAPI backend
     ├── app/
-    │   ├── main.py     # FastAPI app
-    │   ├── config.py   # Pydantic Settings
-    │   ├── database.py # SQLite connection and schema
-    │   └── __init__.py
+    │   ├── main.py       # FastAPI app
+    │   ├── config.py     # Pydantic Settings
+    │   ├── database.py   # SQLite connection and schema
+    │   ├── routers/      # API route handlers
+    │   │   └── chat.py   # /chat endpoints
+    │   └── services/     # External service integrations
+    │       └── ollama.py # Ollama AI client
     └── pyproject.toml
 ```
 
@@ -67,6 +74,7 @@ Both bot and backend validate config at startup (fail-fast pattern).
 - Node.js 18+
 - Python 3.10+
 - [uv](https://docs.astral.sh/uv/) - `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- [Ollama](https://ollama.ai/) with llama3 model - `ollama pull llama3`
 - Discord bot token ([Developer Portal](https://discord.com/developers/applications))
 
 ## Setup
