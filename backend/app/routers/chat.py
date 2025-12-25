@@ -1,23 +1,17 @@
+"""Chat router for AI conversation endpoints."""
+
 from fastapi import APIRouter
-from pydantic import BaseModel
 
 from app.database import get_db
+from app.schemas import ChatRequest, ChatResponse
 from app.services.ollama import chat_completion
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 
 
-class ChatRequest(BaseModel):
-    user_id: str
-    message: str
-
-
-class ChatResponse(BaseModel):
-    response: str
-
-
 @router.post("", response_model=ChatResponse)
 async def chat(request: ChatRequest):
+    """Send a message and get AI response with conversation history."""
     db = await get_db()
     try:
         # Get conversation history
@@ -52,6 +46,7 @@ async def chat(request: ChatRequest):
 
 @router.post("/clear")
 async def clear_history(user_id: str):
+    """Clear conversation history for a user."""
     db = await get_db()
     try:
         await db.execute("DELETE FROM conversations WHERE user_id = ?", (user_id,))
