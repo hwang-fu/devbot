@@ -40,3 +40,20 @@ async def add_repo(guild_id: str, owner: str, name: str):
         )
     finally:
         await db.close()
+
+
+@router.delete("/{guild_id}/repos/{owner}/{name}")
+async def remove_repo(guild_id: str, owner: str, name: str):
+    """Remove a watched repo from a guild."""
+    db = await get_db()
+    try:
+        cursor = await db.execute(
+            "DELETE FROM repos WHERE guild_id = ? AND owner = ? AND name = ?",
+            (guild_id, owner, name),
+        )
+        await db.commit()
+        if cursor.rowcount == 0:
+            raise HTTPException(status_code=404, detail="Repo not found")
+        return {"status": "removed", "guild_id": guild_id, "owner": owner, "name": name}
+    finally:
+        await db.close()
