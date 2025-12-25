@@ -57,3 +57,21 @@ async def remove_repo(guild_id: str, owner: str, name: str):
         return {"status": "removed", "guild_id": guild_id, "owner": owner, "name": name}
     finally:
         await db.close()
+
+
+@router.get("/{guild_id}/config")
+async def get_config(guild_id: str):
+    """Get guild configuration."""
+    db = await get_db()
+    try:
+        cursor = await db.execute(
+            "SELECT notification_channel_id FROM guild_config WHERE guild_id = ?",
+            (guild_id,),
+        )
+        row = await cursor.fetchone()
+        return {
+            "guild_id": guild_id,
+            "notification_channel_id": row["notification_channel_id"] if row else None,
+        }
+    finally:
+        await db.close()
