@@ -4,19 +4,7 @@ import {
   GatewayIntentBits,
 } from "discord.js";
 import "dotenv/config";
-
-const token = process.env.DISCORD_TOKEN;
-const backendUrl = process.env.BACKEND_URL;
-
-if (!token) {
-  console.error("DISCORD_TOKEN is not set!");
-  process.exit(1);
-}
-
-if (!backendUrl) {
-  console.error("BACKEND_URL is not set!");
-  process.exit(1);
-}
+import { config } from "./config.js";
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -39,7 +27,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     await interaction.deferReply();
 
     try {
-      const response = await fetch(`${backendUrl}/health`);
+      const response = await fetch(`${config.BACKEND_URL}/health`);
       const data = await response.json();
 
       await interaction.editReply(
@@ -54,4 +42,5 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-client.login(token);
+
+client.login(config.DISCORD_TOKEN);
