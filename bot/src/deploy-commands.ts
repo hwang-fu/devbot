@@ -14,20 +14,70 @@ const commands = [
     .setName("ping")
     .setDescription("Replies with Pong!"),
 
+
   new SlashCommandBuilder()
     .setName("status")
     .setDescription("Check bot and backend health"),
+
 
   new SlashCommandBuilder()
     .setName("chat")
     .setDescription("Chat with AI")
     .addStringOption((option) =>
-      option.setName("message").setDescription("Your message").setRequired(true)
+      option
+        .setName("message")
+        .setDescription("Your message")
+        .setRequired(true)
     ),
+
 
   new SlashCommandBuilder()
     .setName("clear")
     .setDescription("Clear your conversation history"),
+
+
+  new SlashCommandBuilder()
+    .setName("repos")
+    .setDescription("Manage watched GitHub repos")
+    .addSubcommand((sub) =>
+      sub
+        .setName("list")
+        .setDescription("List watched repos")
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName("add")
+        .setDescription("Add a repo to watch")
+        .addStringOption((opt) =>
+          opt
+            .setName("owner")
+            .setDescription("Repo owner")
+            .setRequired(true)
+        )
+        .addStringOption((opt) =>
+          opt
+            .setName("name")
+            .setDescription("Repo name")
+            .setRequired(true)
+        )
+    )
+    .addSubcommand((sub) =>
+      sub
+        .setName("remove")
+        .setDescription("Remove a watched repo")
+        .addStringOption((opt) =>
+          opt
+            .setName("owner")
+            .setDescription("Repo owner")
+            .setRequired(true)
+        )
+        .addStringOption((opt) =>
+          opt
+            .setName("name")
+            .setDescription("Repo name")
+            .setRequired(true)
+        )
+    ),
 ].map((command) => command.toJSON());
 
 const rest = new REST().setToken(token);

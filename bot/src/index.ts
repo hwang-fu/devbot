@@ -6,7 +6,7 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
 import "dotenv/config";
 import { config } from "./config";
-import { Command, ping, status, chat, clear } from "./commands";
+import { Command, ping, status, chat, clear, repos } from "./commands";
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -24,6 +24,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     status,
     chat,
     clear,
+    repos,
   };
 
   const command = commands[interaction.commandName];
