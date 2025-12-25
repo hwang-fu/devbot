@@ -9,3 +9,4 @@ export * as status from "./status";
 export * as chat from "./chat";
 export * as clear from "./clear";
 export * as repos from "./repos";
+export * as setchannel from "./setchannel";
