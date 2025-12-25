@@ -11,7 +11,11 @@ const clientId = process.env.DISCORD_CLIENT_ID!;
 const commands = [
   new SlashCommandBuilder()
     .setName("ping")
-    .setDescription("Replies with Pong!")
+    .setDescription("Replies with Pong!"),
+
+  new SlashCommandBuilder()
+    .setName("status")
+    .setDescription("Check bot and backend health"),
 ].map((command) => command.toJSON());
 
 const rest = new REST().setToken(token);
