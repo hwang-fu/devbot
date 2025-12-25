@@ -1,10 +1,19 @@
+/**
+ * Discord bot entry point.
+ * Handles client connection and routes commands to handlers.
+ */
+
 import {
   Client,
   Events,
   GatewayIntentBits,
 } from "discord.js";
 import "dotenv/config";
-import { config } from "./config.js";
+import { config } from "./config";
+import * as ping from "./commands/ping";
+import * as status from "./commands/status";
+import * as chat from "./commands/chat";
+import * as clear from "./commands/clear";
 
 const client = new Client({
   intents: [GatewayIntentBits.Guilds],
@@ -15,65 +24,19 @@ client.once(Events.ClientReady, (readyClient) => {
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) {
-    return;
-  }
+  if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === "ping") {
-    await interaction.reply("Pong!");
-  }
+  const commands: Record<string, { execute: typeof ping.execute }> = {
+    ping,
+    status,
+    chat,
+    clear,
+  };
 
-  if (interaction.commandName === "status") {
-    await interaction.deferReply();
-
-    try {
-      const response = await fetch(`${config.BACKEND_URL}/health`);
-      const data = await response.json();
-
-      await interaction.editReply(
-        `**Backend Status**\n` +
-        `Status: ${data.status}\n` +
-        `Uptime: ${data.uptime_seconds}s\n` +
-        `Version: ${data.version}`
-      );
-    } catch (error) {
-      await interaction.editReply("Backend is offline or unreachable.");
-    }
-  }
-
-  if (interaction.commandName === "chat") {
-    const message = interaction.options.getString("message", true);
-    await interaction.deferReply();
-
-    try {
-      const response = await fetch(`${config.BACKEND_URL}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: interaction.user.id,
-          message: message,
-        }),
-      });
-      const data = await response.json();
-      await interaction.editReply(data.response);
-    } catch (error) {
-      await interaction.editReply("Failed to get AI response.");
-    }
-  }
-
-  if (interaction.commandName === "clear") {
-    await interaction.deferReply();
-
-    try {
-      await fetch(`${config.BACKEND_URL}/chat/clear?user_id=${interaction.user.id}`, {
-        method: "POST",
-      });
-      await interaction.editReply("Conversation history cleared!");
-    } catch (error) {
-      await interaction.editReply("Failed to clear history.");
-    }
+  const command = commands[interaction.commandName];
+  if (command) {
+    await command.execute(interaction);
   }
 });
-
 
 client.login(config.DISCORD_TOKEN);
