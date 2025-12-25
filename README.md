@@ -26,7 +26,8 @@ TypeScript Discord bot (discord.js) communicates with a Python backend (FastAPI)
 devbot/
 ├── bot/                # TypeScript Discord bot
 │   ├── src/
-│   │   ├── index.ts    # Entry point + command handlers
+│   │   ├── index.ts            # Entry point + command handlers
+│   │   ├── config.ts           # Zod config validation
 │   │   └── deploy-commands.ts  # Slash command registration
 │   ├── package.json
 │   └── tsconfig.json
@@ -34,9 +35,29 @@ devbot/
 └── backend/            # Python FastAPI backend
     ├── app/
     │   ├── main.py     # FastAPI app
+    │   ├── config.py   # Pydantic Settings
     │   └── __init__.py
     └── pyproject.toml
 ```
+
+## Configuration
+
+Both bot and backend validate config at startup (fail-fast pattern).
+
+### Bot (.env)
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DISCORD_TOKEN` | Yes | Bot token from Developer Portal |
+| `DISCORD_CLIENT_ID` | Yes | Application ID |
+| `BACKEND_URL` | Yes | Backend API URL |
+
+### Backend (.env)
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `OLLAMA_HOST` | No | Ollama API URL |
+| `DATABASE_PATH` | No | SQLite database path |
+| `HOST` | No | Server bind address |
+| `PORT` | No | Server port |
 
 ## Prerequisites
 
