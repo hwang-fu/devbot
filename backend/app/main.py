@@ -1,6 +1,8 @@
 import time
 from fastapi import FastAPI
 
+from app.config import settings
+
 app = FastAPI()
 
 start_time = time.time()
@@ -18,4 +20,5 @@ async def health():
         "status": "healthy",
         "uptime_seconds": round(uptime, 2),
         "version": "0.1.0",
+        "port": settings.port,
     }

@@ -63,7 +63,7 @@ npm install                        # Install dependencies
 # Create .env with:
 #   DISCORD_TOKEN=your_bot_token
 #   DISCORD_CLIENT_ID=your_client_id
-#   BACKEND_URL=http://localhost:8000
+#   BACKEND_URL=your_url
 npx tsx src/deploy-commands.ts     # Register slash commands (once)
 npm run dev                        # Start bot with hot reload
 ```
