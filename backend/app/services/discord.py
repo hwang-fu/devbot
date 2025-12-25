@@ -9,7 +9,7 @@ async def send_channel_message(channel_id: str, embed: dict) -> bool:
     """Send an embed message to a Discord channel."""
     url = f"https://discord.com/api/v10/channels/{channel_id}/messages"
     headers = {
-        "Authorization": f"Bot {settings.discord_bot_token}",
+        "Authorization": f"Bot {settings.discord_token}",
         "Content-Type": "application/json",
     }
     payload = {"embeds": [embed]}
