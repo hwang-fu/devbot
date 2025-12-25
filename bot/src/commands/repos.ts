@@ -6,6 +6,7 @@
 import { ChatInputCommandInteraction } from "discord.js";
 import { config } from "../config";
 
+
 export async function execute(
   interaction: ChatInputCommandInteraction
 ): Promise<void> {
@@ -33,6 +34,7 @@ export async function execute(
   }
 }
 
+
 async function handleList(
   interaction: ChatInputCommandInteraction,
   guildId: string
@@ -49,4 +51,25 @@ async function handleList(
     .map((r: { owner: string; name: string }) => `• ${r.owner}/${r.name}`)
     .join("\n");
   await interaction.editReply(`**Watched repos:**\n${repoList}`);
+}
+
+
+async function handleAdd(
+  interaction: ChatInputCommandInteraction,
+  guildId: string
+): Promise<void> {
+  const owner = interaction.options.getString("owner", true);
+  const name = interaction.options.getString("name", true);
+
+  const response = await fetch(
+    `${config.BACKEND_URL}/guilds/${guildId}/repos?owner=${owner}&name=${name}`,
+    { method: "POST" }
+  );
+
+  if (!response.ok) {
+    await interaction.editReply(`Repo **${owner}/${name}** is already being watched.`);
+    return;
+  }
+
+  await interaction.editReply(`Now watching **${owner}/${name}**`);
 }
