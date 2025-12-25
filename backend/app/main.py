@@ -7,7 +7,7 @@ from fastapi import FastAPI
 
 from app.config import settings
 from app.database import init_db
-from app.routers import chat, debug, guilds
+from app.routers import chat, debug, guilds, github
 from app.services.ollama import verify_model
 
 
@@ -22,6 +22,7 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(chat.router)
 app.include_router(debug.router)
 app.include_router(guilds.router)
+app.include_router(github.router)
 
 
 start_time = time.time()
