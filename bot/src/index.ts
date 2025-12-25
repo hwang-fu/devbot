@@ -20,4 +20,13 @@ client.once(Events.ClientReady, (readyClient) => {
   console.log(`Bot is online as ${readyClient.user.tag}`);
 });
 
+client.on(Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isChatInputCommand()) {
+    return;
+  }
+  if (interaction.commandName === "ping") {
+    await interaction.reply("Pong!");
+  }
+});
+
 client.login(token);
