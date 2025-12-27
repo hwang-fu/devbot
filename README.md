@@ -273,4 +273,4 @@ erDiagram
 
 ## License
 
-MIT © [Junzhe Wang](mailto:junzhe.wang2002@gmail.com)
+MIT © [Junzhe Wang](mailto:junzhe.hwangfu@gmail.com)
